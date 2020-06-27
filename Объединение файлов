@@ -1,0 +1,29 @@
+package com.javarush.task.task18.task1819;
+
+import java.io.*;
+
+//Считать с консоли 2 имени файла.
+//В начало первого файла записать содержимое второго файла так, чтобы получилось объединение файлов.
+//Закрыть потоки.
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // Открываем поток ввода с консоли.
+        String fileOne = reader.readLine(); // Считываем с консоли первый файл.
+        String fileTwo = reader.readLine(); // Считываем с консоли второй файл.
+
+        FileInputStream inputStreamOne = new FileInputStream(fileOne); // Открываем поток для чтения первого файла.
+        FileInputStream inputStreamTwo = new FileInputStream(fileTwo); // Открываем поток для чтения второго файла.
+
+        byte[] buffer = new byte[inputStreamTwo.available() + inputStreamOne.available()];  // Создаем общий массив для файлов.
+
+        inputStreamOne.read(buffer, inputStreamTwo.available(), inputStreamOne.available()); // Записываем первый файл в массив оставляя место для первого файла в начале массива.
+        inputStreamTwo.read(buffer); // Дозаписываем данные второго файла в начало массива.
+
+        FileOutputStream outputStream = new FileOutputStream(fileOne); // Открываем поток для записи в первый файл.
+        outputStream.write(buffer); // Записываем массив данных в первый файл перезаписывая его.
+        inputStreamOne.close(); //
+        inputStreamTwo.close(); // Закрываем потоки.
+        outputStream.close(); //
+    }
+}
