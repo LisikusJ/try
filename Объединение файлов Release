@@ -1,0 +1,21 @@
+package com.javarush.task.task18.task1819;
+
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String fileOne = reader.readLine();
+        String fileTwo = reader.readLine();
+
+        try (FileInputStream inputStreamOne = new FileInputStream(fileOne);
+             FileInputStream inputStreamTwo = new FileInputStream(fileTwo)) {
+            byte[] buffer = new byte[inputStreamTwo.available() + inputStreamOne.available()];
+            inputStreamOne.read(buffer, inputStreamTwo.available(), inputStreamOne.available());
+            inputStreamTwo.read(buffer);
+            FileOutputStream outputStream = new FileOutputStream(fileOne);
+            outputStream.write(buffer);
+            outputStream.close();
+        }
+    }
+}
