@@ -1,0 +1,37 @@
+package com.javarush.task.task19.task1908;
+
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String fileNameOne = reader.readLine();
+        String fileNameTwo = reader.readLine();
+        reader.close();
+        String world = "";
+        BufferedReader readerInput = new BufferedReader(new FileReader(fileNameOne));
+        BufferedWriter readerOutput = new BufferedWriter(new FileWriter(fileNameTwo));
+        while (readerInput.ready()) {
+            int data = readerInput.read();
+            if (data != 32) {
+                world = world + (char) data;
+            } else {
+                try {
+                    int result = Integer.parseInt(world);
+                    readerOutput.write(world);
+                    readerOutput.write(" ");
+                    world = "";
+                } catch (NumberFormatException e) {
+                    world = "";
+                }
+            }
+        }
+        try {
+            int result = Integer.parseInt(world);
+            readerOutput.write(world);
+        } catch (NumberFormatException e) {
+        }
+        readerInput.close();
+        readerOutput.close();
+    }
+}
