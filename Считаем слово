@@ -1,0 +1,34 @@
+package com.javarush.task.task19.task1907;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String fileName = reader.readLine();
+        reader.close();
+        String world = "";
+        int count = 0;
+
+        try (FileReader fileReader = new FileReader(fileName)) {
+            while (fileReader.ready()) {
+                int data = fileReader.read();
+                if (Character.isLetterOrDigit(data)) {
+                    world = world + (char) data;
+                } else {
+                    if (world.equals("world")) {
+                        count++;
+                    }
+                    world = "";
+                }
+            }
+        }
+        if (world.equals("world")) {
+            count++;
+        }
+        System.out.println(count);
+    }
+}
