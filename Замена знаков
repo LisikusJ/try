@@ -1,0 +1,20 @@
+package com.javarush.task.task19.task1909;
+
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+             BufferedReader readerInput = new BufferedReader(new FileReader(reader.readLine()));
+             BufferedWriter readerOutput = new BufferedWriter(new FileWriter(reader.readLine()))) {
+            while (readerInput.ready()) {
+                int data = readerInput.read();
+                if (data != 46) {
+                    readerOutput.write(data);
+                } else {
+                    readerOutput.write(33);
+                }
+            }
+        }
+    }
+}
