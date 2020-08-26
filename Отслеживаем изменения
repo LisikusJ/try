@@ -1,0 +1,63 @@
+package com.javarush.task.task19.task1916;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static List<LineItem> lines = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException {
+        ArrayList<String> original = new ArrayList<>();
+        ArrayList<String> edited = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+             BufferedReader readerOne = new BufferedReader(new FileReader(bufferedReader.readLine()));
+             BufferedReader readerTwo = new BufferedReader(new FileReader(bufferedReader.readLine()))) {
+            while (readerOne.ready()) {
+                original.add(readerOne.readLine());
+            }
+            while (readerTwo.ready()) {
+                edited.add(readerTwo.readLine());
+            }
+        }
+        while (true) {
+            if (original.size() == 0 || edited.size() == 0) {
+                if (original.size() != 0) {
+                    lines.add(new LineItem(Type.REMOVED, original.get(0)));
+                } else {
+                    lines.add(new LineItem(Type.ADDED, edited.get(0)));
+                }
+                break;
+            } else if (original.get(0).equals(edited.get(0))) {
+                lines.add(new LineItem(Type.SAME, original.get(0)));
+                original.remove(0);
+                edited.remove(0);
+            } else if (!original.get(0).equals(edited.get(0)) && original.get(1).equals(edited.get(0))) {
+                lines.add(new LineItem(Type.REMOVED, original.get(0)));
+                original.remove(0);
+            } else if (!original.get(0).equals(edited.get(0)) && original.get(0).equals(edited.get(1))) {
+                lines.add(new LineItem(Type.ADDED, edited.get(0)));
+                edited.remove(0);
+            }
+        }
+    }
+
+    public static enum Type {
+        ADDED,        //добавлена новая строка
+        REMOVED,      //удалена строка
+        SAME          //без изменений
+    }
+
+    public static class LineItem {
+        public Type type;
+        public String line;
+
+        public LineItem(Type type, String line) {
+            this.type = type;
+            this.line = line;
+        }
+    }
+}
